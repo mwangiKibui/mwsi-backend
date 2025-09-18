@@ -27,6 +27,12 @@ module.exports = (sequelize,DataTypes) => {
         modelName:"Users"
     });
 
+    User.associate = (models) => {
+        User.hasMany(models.UserRole,{foreignKey:"userId",as:"userRoles"});
+        User.hasMany(models.Employee,{foreignKey:"userId",as:"employeeUsers"});
+        User.hasMany(models.Employee,{foreignKey:"managerId",as:"employeeManagers"});
+    }
+
     return User;
 
 };
