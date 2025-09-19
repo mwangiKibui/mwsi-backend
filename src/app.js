@@ -1,20 +1,20 @@
 const express = require('express');
 const logger = require('./helpers/loghelper');
-const db = require('./db/models');
+const {authRoutes,employeeRoutes} = require('./routes');
 require('dotenv').config();
 
 // Initialize Express app
 const app = express();
 app.use(express.json());
 
-// Basic route
-app.get('/', async (req, res) => {
-  let users = await db.User.findAll();
-  res.json(({
-    success:true,
-    data:users
-  }));
+// Health route
+app.get('/health', async (req, res) => {
+  return res.json({ status: 'OK', timestamp: new Date() });
 });
+
+// Auth routes
+app.use('/api/v1/auth',authRoutes);
+app.use('/api/v1/employees',employeeRoutes);
 
 const PORT = process.env.PORT || 3000;
 

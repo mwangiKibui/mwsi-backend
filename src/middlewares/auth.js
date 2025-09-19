@@ -20,12 +20,17 @@ exports.authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
-    if (!token) return res.sendStatus(401);
-
+    if (!token) return res.status(401).json({
+        success:false,
+        message: 'Invalid or missing token'
+    });
     jwt.verify(token, process.env.JWT_TOKEN, async (err, user) => {
-        if (err) return res.sendStatus(403);
+        if (err) return res.status(403).json({
+            success:false,
+            message: 'Invalid or expired token'
+        });
         // send request to get the roles from db.
-        req.user.roles = await getUserRoles(user.id);
+        req.userRoles = await getUserRoles(user.id);
         req.user = user;
         next();
     });
@@ -36,20 +41,17 @@ exports.generateToken = (user) => {
 }
 
 // Middleware to check if the user has the required role
-exports.IsManager = () => {
-    return (req, res, next) => {
-        if(req.user.roles.includes('Manager')) {
-            return next();
-        }
-        return res.status(403).json({ message: 'Access denied. Manager role required.' });
-    };
+exports.IsManager = (req,res,next) => {
+    if(req.userRoles.includes('Manager') || req.userRoles.includes('Admin')) {
+        return next();
+    }
+    return res.status(403).json({ message: 'Access denied. Manager role required.' });
+    
 }
 
-exports.IsEmployee = () => {
-    return (req, res, next) => {
-        if(req.user.roles.includes('Employee')) {
-            return next();
-        }
-        return res.status(403).json({ message: 'Access denied. Employee role required.' });
-    };
+exports.IsEmployee = (req,res,next) => {
+    if(req.userRoles.includes('Employee') || req.userRoles.includes('Manager') || req.userRoles.includes('Admin')) {
+        return next();
+    }
+    return res.status(403).json({ message: 'Access denied. Employee role required.' });
 }

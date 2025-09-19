@@ -121,6 +121,16 @@ module.exports = (sequelize,DataTypes) => {
         isActive:{
             type:DataTypes.BOOLEAN,
             defaultValue:true
+        },
+        createdBy:{
+            type:DataTypes.INTEGER,
+            allowNull:true,
+            references:{
+                model:'Users',
+                key:'id'
+            },
+            onDelete:'CASCADE',
+            onUpdate:'CASCADE'
         }
     },{
         timestamps:true,
@@ -130,6 +140,7 @@ module.exports = (sequelize,DataTypes) => {
     Employee.associate = (models) => {
         Employee.belongsTo(models.User,{foreignKey:"userId",as:"user"});
         Employee.belongsTo(models.User,{foreignKey:"managerId",as:"manager"});
+        Employee.belongsTo(models.User,{foreignKey:"createdBy",as:"creator"});
         Employee.belongsTo(models.Status,{foreignKey:"statusId",as:"status"});
         Employee.belongsTo(models.EmploymentType,{foreignKey:"employmentTypeId",as:"employmentType"});
     }

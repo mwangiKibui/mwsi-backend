@@ -31,6 +31,7 @@ module.exports = (sequelize,DataTypes) => {
         User.hasMany(models.UserRole,{foreignKey:"userId",as:"userRoles"});
         User.hasMany(models.Employee,{foreignKey:"userId",as:"employeeUsers"});
         User.hasMany(models.Employee,{foreignKey:"managerId",as:"employeeManagers"});
+        User.hasMany(models.Employee,{foreignKey:"createdBy",as:"creators"});
     }
 
     return User;
