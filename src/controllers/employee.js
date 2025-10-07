@@ -24,10 +24,10 @@ exports.getEmployees = async (req, res) => {
     const {count,rows:employees} = await db.Employee.findAndCountAll({
         include: [
             { model: db.User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email'] },
-            { model: db.User, as: 'manager', attributes: ['id', 'firstName', 'lastName', 'email'] },
-            { model: db.User, as: 'creator', attributes: ['id', 'firstName', 'lastName', 'email'] },
-            { model: db.Status, as: 'status' },
-            { model: db.EmploymentType, as: 'employmentType' }
+            // { model: db.User, as: 'manager', attributes: ['id', 'firstName', 'lastName', 'email'] },
+            // { model: db.User, as: 'creator', attributes: ['id', 'firstName', 'lastName', 'email'] },
+            // { model: db.Status, as: 'status' },
+            // { model: db.EmploymentType, as: 'employmentType' }
         ],
         limit: pageSize,
         offset: offset

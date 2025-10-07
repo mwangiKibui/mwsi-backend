@@ -6,7 +6,7 @@ module.exports = (sequelize,DataTypes) => {
             type:DataTypes.INTEGER,
             allowNull:false,
             references:{
-                model:'Users',
+                model:'User',
                 key:'id'
             },
             onDelete:'CASCADE',
@@ -134,7 +134,7 @@ module.exports = (sequelize,DataTypes) => {
         }
     },{
         timestamps:true,
-        modelName:"Employees"
+        tableName:"Employees"
     });
 
     Employee.associate = (models) => {

@@ -18,7 +18,7 @@ module.exports = (sequelize,DataTypes) => {
         }
     },{
         timestamps:true,
-        modelName:"EmploymentTypes"
+        tableName:"EmploymentTypes"
     });
 
     EmploymentType.associate = (models) => {

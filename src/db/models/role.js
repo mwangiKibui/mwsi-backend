@@ -20,7 +20,7 @@ module.exports = (sequelize,DataTypes) => {
         }
     },{
         timestamps:true,
-        modelName:"Roles"
+        tableName:"Roles"
     });
 
     Role.associate = (models) => {
